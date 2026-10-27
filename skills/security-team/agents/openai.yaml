@@ -1,0 +1,4 @@
+interface:
+  display_name: "Security Team"
+  short_description: "Chọn và điều phối bộ công cụ audit bảo mật"
+  default_prompt: "Dùng $security-team để khảo sát project, chọn đội kiểm tra phù hợp và thực hiện audit trong phạm vi được phép, chưa sửa source."
