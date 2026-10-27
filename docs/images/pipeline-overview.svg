@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1380" height="675" viewBox="0 0 1380 675" role="img" aria-labelledby="title desc">
+  <title id="title">Security Team pipeline overview</title>
+  <desc id="desc">Assess the project, select from eleven repositories, run baseline checks, perform deep review, verify evidence, and report. Fix and recheck is an optional approved step.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0C1420"/><stop offset="1" stop-color="#1B2A3D"/></linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10" fill="none" stroke="#E0A16F" stroke-width="2"/></marker>
+  </defs>
+  <rect width="1380" height="675" rx="20" fill="url(#bg)"/>
+  <text x="65" y="63" fill="#ECAE7A" font-family="Consolas,monospace" font-size="16" letter-spacing="2">SECURITY TEAM / PIPELINE OVERVIEW</text>
+  <text x="65" y="106" fill="#F0F4F6" font-family="Segoe UI,Arial,sans-serif" font-size="30" font-weight="700">One coordinator, a focused set of checks.</text>
+  <text x="65" y="137" fill="#ADBDCB" font-family="Segoe UI,Arial,sans-serif" font-size="17">Specialists are selected for the project, not invoked just to fill a list.</text>
+  <path d="M65 163H1315" stroke="#32465A"/>
+  <path d="M432 270H481M875 270H920M1123 344V378M934 459H887M490 459H444" fill="none" stroke="#DB9C69" stroke-width="3" marker-end="url(#arrow)"/>
+  <g font-family="Segoe UI,Arial,sans-serif">
+    <rect x="65" y="196" width="367" height="145" rx="13" fill="#172A3C" stroke="#68869A"/><rect x="65" y="196" width="7" height="145" rx="3" fill="#75B7BB"/>
+    <text x="89" y="229" fill="#ABD0DC" font-size="15" font-weight="700">01 / RECON</text>
+    <text x="89" y="273" fill="#F4F6F6" font-size="29" font-weight="700">Assess</text>
+    <text x="89" y="305" fill="#BACBD7" font-size="17">Map stack, scope and trust boundaries.</text>
+    <rect x="490" y="196" width="385" height="145" rx="13" fill="#352B29" stroke="#A17B61"/><rect x="490" y="196" width="7" height="145" rx="3" fill="#E7A570"/>
+    <text x="514" y="229" fill="#EDBF9C" font-size="15" font-weight="700">02 / ROUTING</text>
+    <text x="514" y="273" fill="#F4F6F6" font-size="29" font-weight="700">Select</text>
+    <text x="514" y="305" fill="#DFCEC2" font-size="17">Evaluate all 11; choose relevant roles.</text>
+    <rect x="933" y="196" width="382" height="145" rx="13" fill="#172A3C" stroke="#68869A"/><rect x="933" y="196" width="7" height="145" rx="3" fill="#75B7BB"/>
+    <text x="957" y="229" fill="#ABD0DC" font-size="15" font-weight="700">03 / FIRST PASS</text>
+    <text x="957" y="273" fill="#F4F6F6" font-size="29" font-weight="700">Baseline</text>
+    <text x="957" y="305" fill="#BACBD7" font-size="17">Secrets, dependencies, common flaws.</text>
+    <rect x="933" y="385" width="382" height="145" rx="13" fill="#172A3C" stroke="#68869A"/><rect x="933" y="385" width="7" height="145" rx="3" fill="#75B7BB"/>
+    <text x="957" y="418" fill="#ABD0DC" font-size="15" font-weight="700">04 / SPECIALISTS</text>
+    <text x="957" y="462" fill="#F4F6F6" font-size="29" font-weight="700">Deep review</text>
+    <text x="957" y="494" fill="#BACBD7" font-size="17">Trace high-risk paths and variants.</text>
+    <rect x="490" y="385" width="385" height="145" rx="13" fill="#172A3C" stroke="#68869A"/><rect x="490" y="385" width="7" height="145" rx="3" fill="#75B7BB"/>
+    <text x="514" y="418" fill="#ABD0DC" font-size="15" font-weight="700">05 / EVIDENCE</text>
+    <text x="514" y="462" fill="#F4F6F6" font-size="29" font-weight="700">Verify</text>
+    <text x="514" y="494" fill="#BACBD7" font-size="17">Challenge claims and reproduce safely.</text>
+    <rect x="65" y="385" width="367" height="145" rx="13" fill="#352B29" stroke="#A17B61"/><rect x="65" y="385" width="7" height="145" rx="3" fill="#E7A570"/>
+    <text x="89" y="418" fill="#EDBF9C" font-size="15" font-weight="700">06 / OUTPUT</text>
+    <text x="89" y="462" fill="#F4F6F6" font-size="29" font-weight="700">Report</text>
+    <text x="89" y="494" fill="#DFCEC2" font-size="17">Evidence, findings and coverage gaps.</text>
+  </g>
+  <path d="M248 531V579H357" stroke="#E0A16F" stroke-width="2" stroke-dasharray="7 7" fill="none" marker-end="url(#arrow)"/>
+  <rect x="374" y="557" width="636" height="63" rx="12" fill="#213B40" stroke="#79B2B4" stroke-dasharray="6 5"/>
+  <text x="398" y="580" fill="#B6E7E0" font-family="Consolas,monospace" font-size="15" font-weight="700">OPTIONAL / APPROVED REMEDIATION</text>
+  <text x="398" y="602" fill="#E8F0EE" font-family="Segoe UI,Arial,sans-serif" font-size="17">Fix scoped issues, rerun affected checks, update evidence.</text>
+  <text x="67" y="649" fill="#9EAFBD" font-family="Consolas,monospace" font-size="14">INDEPENDENT READ-ONLY CHECKS MAY RUN IN PARALLEL · SOURCE CHANGES REQUIRE AUTHORIZATION</text>
+</svg>

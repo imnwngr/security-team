@@ -1,197 +1,273 @@
-# Security Team
+<p align="center">
+  <img src="docs/images/hero.svg" alt="Security Team: assess the project, select the tools, audit, verify and report." width="100%">
+</p>
 
-**Một skill để khảo sát project, tự chọn bộ công cụ bảo mật và tổ chức audit đúng thứ tự.** Bạn mô tả mục tiêu; Codex xem project cần gì, chọn từ 11 repo và tổng hợp bằng chứng thành một báo cáo.
+<h1 align="center">Security Team</h1>
+<p align="center"><strong>One skill. The right security team.</strong></p>
+<p align="center">Project-aware security reviews, coordinated by Codex.</p>
+<p align="center">
+  <img src="https://img.shields.io/badge/host-Codex-222222?style=flat-square" alt="Host: Codex">
+  <img src="https://img.shields.io/badge/catalog-11_repositories-c5652a?style=flat-square" alt="Catalog: 11 repositories">
+  <img src="https://img.shields.io/badge/default-report_only-555555?style=flat-square" alt="Default: report only">
+</p>
+<p align="center"><strong>English</strong> · <a href="README.vi.md">Tiếng Việt</a></p>
+<p align="center">
+  <a href="#quick-start">Quick start</a> ·
+  <a href="#pipeline-overview">Pipeline</a> ·
+  <a href="#meet-the-toolkit">Toolkit</a> ·
+  <a href="#installation">Installation</a> ·
+  <a href="#documentation">Documentation</a>
+</p>
 
-Đây là skill dạng hướng dẫn, có script hỗ trợ cài đặt và tải source. Nó không phải scanner độc lập, không tự chạy khi chưa có coding agent và chưa có adapter thực thi được kiểm thử cho toàn bộ 11 upstream.
+---
 
-## Bắt đầu nhanh trên Windows
+Security Team helps you answer **“Which security tools does this project actually need?”** It guides Codex to inspect the project, choose relevant methods and tools from an eleven-repository catalog, order the work, challenge findings, and produce one evidence-based report.
 
-Yêu cầu ban đầu: **Git**, **PowerShell** và **Codex có quyền đọc project**. Skill điều phối không yêu cầu Python, Node.js, Docker hay API key riêng. Agent/model bạn sử dụng vẫn có chi phí và chính sách dữ liệu của nền tảng đó.
+You describe the goal. Codex coordinates the work. Each selected tool gets a bounded role; irrelevant or unavailable tools are recorded with a reason.
+
+> [!NOTE]
+> This is an **instruction-based skill with setup helpers**, not a standalone scanner or an already integrated eleven-tool runtime. Selected upstream tools need their own prerequisites and compatible host integrations. Full end-to-end integration has not yet been tested.
+
+## Quick start
+
+You need **Git**, **PowerShell**, and **Codex with access to your project**. The coordinating skill itself needs no Python, Node.js, Docker, or separate API key. Your agent's normal model usage and data policies still apply.
+
+Run in PowerShell:
 
 ```powershell
 git clone https://github.com/imnwngr/security-team.git
 Set-Location security-team
 
-# Kiểm tra bộ skill trước khi cài.
+# Validate the package, preview the install, then install the skill.
 & .\scripts\Test-Package.ps1
-
-# Xem trước, sau đó cài skill cho tài khoản hiện tại.
 & .\scripts\Install-Skill.ps1 -WhatIf
 & .\scripts\Install-Skill.ps1
 
-# Tải source của 11 repo vào Documents/Security-Toolkit.
+# Download the eleven upstream source repositories. No dependencies installed.
 & .\scripts\Get-Toolkit.ps1 -WhatIf
 & .\scripts\Get-Toolkit.ps1
 ```
 
-Script cài chỉ sao chép `skills/security-team` vào `~/.agents/skills/security-team`. Không sửa cấu hình hệ thống, cài hooks hay cài dependency. Nếu đích đã tồn tại, script dừng để tránh ghi đè. Có thể đọc source script trước khi chạy. Nếu PowerShell bị chính sách của tổ chức chặn, dùng cách sao chép thủ công phía dưới; không cần tắt chính sách bảo vệ.
-
-Mở project trong Codex rồi gửi:
+Open your project in Codex and start with a plan:
 
 ```text
-$security-team khảo sát project hiện tại.
-Bộ công cụ nằm trong Documents/Security-Toolkit của tôi.
-Tự xác định cần dùng repo nào, thiếu dependency nào và thứ tự kiểm tra.
-Chỉ lập kế hoạch trước, chưa chạy scanner hoặc sửa source.
+$security-team assess this project and recommend the right security team.
+My toolkit is in Documents/Security-Toolkit.
+Identify relevant tools, missing prerequisites, and the review order.
+Plan only. Do not run scanners or edit source files.
 ```
 
-Sau khi xem kế hoạch:
+When ready to audit:
 
 ```text
-$security-team audit project theo kế hoạch.
-Thực hiện các kiểm tra được phép, báo cáo bằng tiếng Việt, chưa sửa source.
-Nếu thiếu công cụ thì tiếp tục phần độc lập và ghi rõ khoảng trống.
+$security-team audit this project using the plan.
+Run the permitted checks and produce an English report. Do not edit source.
+Continue independent checks if a tool is missing, and report coverage gaps.
 ```
 
-## Cài đặt skill
+The installer copies the complete skill to `~/.agents/skills/security-team`. It refuses to overwrite an existing installation. Restart Codex if the skill does not appear. See [installation](#installation) for project-local and manual options.
 
-### Cài cho một project
+## What the skill coordinates
 
-Chạy từ thư mục clone `security-team`, thay đường dẫn project:
+| Decision | What happens |
+|---|---|
+| Understand the project | Identify the stack, entry points, sensitive data, trust boundaries and source revision. |
+| Choose the team | Consider all eleven repositories; record selected, redundant, not applicable, unavailable or approval-required roles. |
+| Bound the work | Give each check a scope, prerequisites, allowed actions and expected evidence. |
+| Challenge the findings | Trace claims through source, evaluate existing defenses and distinguish proof from uncertainty. |
+| Join the results | Deduplicate by root cause while preserving affected locations, tool provenance and coverage gaps. |
+| Fix when requested | Apply scoped changes, run relevant regression checks and revisit affected evidence. |
+
+A comprehensive audit expands relevant coverage. It does not launch eleven full orchestrators or count missing tools as completed checks.
+
+## Pipeline overview
+
+<p align="center">
+  <img src="docs/images/pipeline-overview.svg" alt="Plan: assess and select. Audit: baseline, deep review, verify and report. Optional remediation: fix and recheck, only when requested." width="100%">
+</p>
+
+| Stage | Job | Evidence |
+|---|---|---|
+| **01 · Assess** | Map the project, permissions and installed capabilities. | `project-profile.md` |
+| **02 · Select** | Build the threat model, choose specialists and record all eleven selection decisions. | `audit-plan.md` |
+| **03 · Baseline** | Check relevant secrets, dependencies and common vulnerabilities. | Raw results and candidate findings |
+| **04 · Deep review** | Examine high-risk paths with the primary audit procedure and selected specialists. | Source traces and `coverage.json` |
+| **05 · Verify** | Challenge candidates; run scoped reproductions when permitted and available. | Finding evidence and unresolved facts |
+| **06 · Report** | Combine findings, priorities, provenance and coverage gaps. | `findings.json` and `REPORT.md` |
+| **Optional · Fix & recheck** | Make requested changes and verify their effects. | Diff, regression results and updated evidence |
+
+Independent read-only checks can run in parallel on the same source snapshot. Runtime validation depends on a scoped target and suitable isolation. If independent verification is unavailable, the report must say so.
+
+<details>
+<summary>Text version of the pipeline</summary>
+
+```text
+Your project
+  -> assess stack, scope and available capabilities
+  -> select relevant roles from all 11 repositories
+  -> model threats and order the checks
+  -> baseline scans + deep review
+  -> challenge findings and verify evidence
+  -> report confirmed issues, uncertainty and coverage gaps
+  -> optional requested fixes + regression checks
+```
+
+</details>
+
+## Meet the toolkit
+
+These repositories provide methods or tools, not independent decision authority. Codex remains the coordinator. The [routing catalog](skills/security-team/references/catalog.md) explains selection rules and limitations.
+
+| Role | Repository | When it helps |
+|---|---|---|
+| Agent command protection | [CC Safety Net](https://github.com/kenryu42/cc-safety-net) | Guarding supported agent operations; separate from application audit coverage. |
+| Skill and plugin inspection | [AgentGuard](https://github.com/GoPlusSecurity/agentguard) | Reviewing toolkit trust and agent-related risks. |
+| Security coverage reference | [OWASP Security Skill](https://github.com/agamm/claude-code-owasp) | Relevant controls, review checklists and remediation guidance. |
+| Common vulnerability pass | [vbsec](https://github.com/tanviet12/vbsec) | A bounded early review of supported application stacks. |
+| Scanner evidence | [Ghost Security](https://github.com/ghostsecurity/skills) | Secrets, dependencies and optional dynamic validation. |
+| Primary audit procedure | [Cloudflare Security Audit](https://github.com/cloudflare/security-audit-skill) | Broad source review with coverage accounting and verification. |
+| Specialist methods | [Trail of Bits Skills](https://github.com/trailofbits/skills) | Static analysis, variants, false-positive checks and stack-specific testing. |
+| Optional second opinion | [PYA](https://github.com/AgriciDaniel/pya) | Targeted independent review, including AI/MCP and supply-chain concerns. |
+| Business-logic challenge | [Bug Hunter](https://github.com/codexstar69/bug-hunter) | Important authorization, payment, quota and concurrency paths. |
+| Threat-model / native harness reference | [Anthropic Reference Harness](https://github.com/anthropics/defending-code-reference-harness) | Threat modeling and suitable native-code validation workflows. |
+| Artifact and infrastructure review | [ptn1411 Skills](https://github.com/ptn1411/skill) | Release packages, SBOM, container/cloud configuration and relevant artifacts. |
+
+**For a typical web/API project:** start with relevant OWASP controls, common-code checks and secret/dependency evidence; use Cloudflare's procedure with selected Trail of Bits methods for deeper review; add business-logic or artifact checks where the project warrants them.
+
+Cloning a repository makes its source available. It does not install its scanner, activate its hooks or prove host compatibility. See the [dependency guide](docs/prerequisites.md).
+
+## Common workflows
+
+These are prompts for your coding agent, not terminal commands or implemented CLI flags.
+
+| Goal | Request |
+|---|---|
+| Plan first | `$security-team assess this project and recommend an audit plan. Do not run scanners.` |
+| Audit without edits | `$security-team audit this project. Report only; do not edit source.` |
+| Review a diff | `$security-team review the current diff and affected callers for security issues.` |
+| Focus on one area | `$security-team audit src/auth and its authorization boundaries.` |
+| Review release artifacts | `$security-team assess the supplied release package and document source visibility limits.` |
+| Verify earlier findings | `$security-team verify the previous findings and report what remains unresolved.` |
+| Request fixes | `$security-team fix confirmed issues within the permitted scope, run regression checks, and do not commit or push.` |
+
+Request a report language explicitly if needed. The skill currently defaults to Vietnamese.
+
+## Installation
+
+### Project-local installation
+
+From this checkout, replace the project path:
 
 ```powershell
 & .\scripts\Install-Skill.ps1 `
   -Destination 'C:\dev\my-project\.agents\skills\security-team'
 ```
 
-Chọn cài cấp người dùng hoặc cấp project, tránh cài trùng hai bản cùng tên. Các vị trí được đối chiếu với [tài liệu local skills của OpenAI](https://learn.chatgpt.com/docs/build-skills). Nếu chưa thấy skill trong danh sách, khởi động lại Codex.
+Choose either a user-level or a project-local installation to avoid duplicate skills. Local discovery locations are documented in [OpenAI's skills guide](https://learn.chatgpt.com/docs/build-skills).
 
-### Sao chép thủ công / macOS / Linux
+### Manual installation · macOS / Linux / Windows
 
-Sao chép **nguyên thư mục** `skills/security-team`, bao gồm `references` và `agents`; không chỉ lấy `SKILL.md`. Ví dụ chạy từ thư mục repo trên macOS/Linux:
+Copy the **whole** `skills/security-team` directory, including `references` and `agents`. On macOS/Linux, run from this checkout:
 
 ```bash
 mkdir -p "$HOME/.agents/skills"
 if [ -e "$HOME/.agents/skills/security-team" ]; then
-  echo "Skill đã tồn tại; hãy xem diff và sao lưu trước khi cập nhật."
+  echo "Skill already exists. Review changes and back it up before updating."
 else
   cp -R skills/security-team "$HOME/.agents/skills/security-team"
 fi
 ```
 
-Trên Windows cũng có thể dùng File Explorer để sao chép vào thư mục `.agents/skills` của tài khoản hoặc project. Không cần chạy script để sử dụng skill.
+On Windows, File Explorer can copy the same directory into your user or project's `.agents/skills` folder. If organizational policy blocks scripts, use the permitted manual workflow rather than disabling protection.
 
-### Dùng ngay mà không cài
+### Try without installing
 
-Yêu cầu Codex đọc đường dẫn tuyệt đối đến `skills/security-team/SKILL.md`, rồi khảo sát project. Cách này cũng phù hợp khi muốn thử trước. Host khác có thể đọc phương pháp, nhưng quyền điều phối và tích hợp native của từng công cụ phải được đánh giá riêng; bản này được thiết kế với Codex điều phối.
+Ask Codex to read the absolute path to `skills/security-team/SKILL.md`, then assess your project. Other hosts may read the methodology, but their permissions and native integrations need separate evaluation; this skill is designed around Codex coordination.
 
-## Tải 11 repo: source khác với công cụ đã cài
-
-`Get-Toolkit.ps1` clone đầy đủ lịch sử Git thông thường và submodule, không dùng shallow clone. Script tạo manifest JSON chứa commit, đường dẫn và trạng thái từng repo; repo lỗi được ghi nhận và script tiếp tục tải những repo còn lại.
+## Download the upstream sources
 
 ```powershell
-# Chọn nơi lưu riêng.
+# Use a separate tools directory.
 & .\scripts\Get-Toolkit.ps1 -Destination 'D:\Security-Toolkit'
-
-# Chỉ kiểm tra/cài thử skill vào thư mục riêng, không kích hoạt toàn cục.
-& .\scripts\Install-Skill.ps1 -Destination '.\local-test\security-team'
 ```
 
-Khi chạy lại downloader, các thư mục đã tồn tại được bỏ qua và ghi `existing_unverified`; script không tự pull, reset hay sửa chúng. Hãy xem manifest: chỉ `cloned` là bản clone được hoàn tất trong lượt đó. Git LFS, file đính kèm Releases, model và dependency không nằm trong cam kết tải đầy đủ của script. Nếu upstream dùng các phần này, làm theo tài liệu của đúng phiên bản đó.
+The downloader clones ordinary Git history and submodules, then writes a uniquely named revision manifest. It does not install dependencies, run upstream code or activate skills. On macOS/Linux with PowerShell 7:
 
-Có PowerShell 7 trên macOS/Linux thì có thể chạy script bằng `pwsh -File ./scripts/Get-Toolkit.ps1 -Destination /path/to/toolkit`. Nếu không, clone từng URL trong [danh mục](skills/security-team/references/catalog.md) bằng `git clone --recurse-submodules URL`, đặt thư mục theo dạng `owner__repo`.
-
-## Các thành phần cần thiết sau khi khảo sát
-
-**Không cần cài cả 11 bộ để bắt đầu.** Cài skill điều phối trước, tải source tham khảo khi cần, rồi để skill lập danh sách prerequisite theo project. Mỗi bản upstream có thể đổi cách cài; đọc README của commit đã tải trước khi thực thi.
-
-| Repo | Vai trò | Chuẩn bị khi được chọn |
-|---|---|---|
-| [cc-safety-net](https://github.com/kenryu42/cc-safety-net) | Bảo vệ thao tác của agent | Node.js theo yêu cầu upstream và tích hợp hooks đúng host; không phải scanner ứng dụng |
-| [agentguard](https://github.com/GoPlusSecurity/agentguard) | Đánh giá skill/plugin, bảo vệ agent | Runtime/package theo upstream; cloud và lịch chạy không bắt buộc cho việc đọc skill |
-| [claude-code-owasp](https://github.com/agamm/claude-code-owasp) | Checklist và tiêu chí đánh giá | Có thể đọc thư mục skill cùng tài liệu tham chiếu; không cần dịch vụ riêng để đọc |
-| [vbsec](https://github.com/tanviet12/vbsec) | Kiểm tra lỗi phổ biến | Skill và agent hỗ trợ; kiểm tra stack có nằm trong phạm vi hỗ trợ |
-| [Ghost Security](https://github.com/ghostsecurity/skills) | Secret, dependency, code, xác minh động | Cài công cụ cụ thể theo upstream; kiểm tra nhu cầu mạng, proxy và môi trường local/staging |
-| [Cloudflare security-audit](https://github.com/cloudflare/security-audit-skill) | Quy trình audit chính | Node.js cho validator; khả năng phân công agent và môi trường cách ly cho thực thi target |
-| [Trail of Bits](https://github.com/trailofbits/skills) | Chuyên gia theo vấn đề/stack | Chỉ cài plugin và tool thực sự chọn, ví dụ Semgrep/CodeQL hoặc fuzzer khi phù hợp |
-| [PYA](https://github.com/AgriciDaniel/pya) | Góc nhìn audit độc lập | Native plugin cần môi trường Claude Code phù hợp; dùng phương pháp đọc tài liệu phải ghi rõ |
-| [Bug Hunter](https://github.com/codexstar69/bug-hunter) | Lỗi logic, runtime, phản biện | Cài theo host thực tế; giữ report-only khi chưa yêu cầu sửa, không auto-commit |
-| [Anthropic reference harness](https://github.com/anthropics/defending-code-reference-harness) | Threat model, harness chuyên biệt | Đọc phương pháp không cần chạy harness; chạy harness cần Python/Docker/gVisor và quyền truy cập model theo upstream |
-| [ptn1411/skill](https://github.com/ptn1411/skill) | Artifact, SBOM, cloud/container | Python 3.10+ cho CLI; tool ngoài như JADX/Nmap/asar chỉ khi module tương ứng cần |
-
-Hai ví dụ cài dependency **tùy chọn**, chỉ sau khi đã đọc upstream và chấp thuận tác động:
-
-```powershell
-# Trong bản clone ptn1411__skill: tạo môi trường Python riêng.
-python -m venv .venv
-& .\.venv\Scripts\python.exe -m pip install -r requirements.txt
+```bash
+pwsh -File ./scripts/Get-Toolkit.ps1 -Destination /path/to/toolkit
 ```
 
-```powershell
-# Guard tùy chọn: cài hooks vào coding CLI và kiểm tra hoạt động.
-# Lệnh này thay đổi cấu hình agent; không thuộc bước tải source.
-npx -y cc-safety-net@latest install
-npx -y cc-safety-net@latest doctor
-```
+Without PowerShell, clone catalog URLs with `git clone --recurse-submodules URL`, naming each directory `owner__repo`.
 
-Không chạy đồng thời hai bộ hooks mà chưa kiểm tra tương thích. Không tự thay đổi credential, schema, commit, push hay deploy trong một lượt audit. Chính sách và quyền của người dùng vẫn quyết định thao tác được phép.
-
-## Cách đội kiểm tra phối hợp
-
-```mermaid
-flowchart TD
-    A[Khảo sát project và quyền hiện có] --> B[Xét đủ 11 repo, chọn vai trò phù hợp]
-    B --> C[Threat model và kế hoạch bao phủ]
-    C --> D[Quét nền: secret, dependency, lỗi phổ biến]
-    D --> E[Audit sâu và chuyên gia theo stack]
-    E --> F[Phản biện và xác minh finding]
-    F --> G[Báo cáo bằng chứng và khoảng trống]
-    G --> H{Có yêu cầu sửa?}
-    H -->|Có| I[Sửa có phạm vi, kiểm thử hồi quy]
-    H -->|Không| J[Kết thúc lượt report-only]
-```
-
-Codex điều phối một hàng đợi công việc. Các repo cung cấp phương pháp/công cụ cho từng giai đoạn; không khởi chạy 11 bộ điều phối đầy đủ lồng nhau. Việc xét đủ 11 luôn được ghi trong kế hoạch, nhưng kỹ thuật không phù hợp sẽ được bỏ qua có lý do.
-
-### Các cách gọi thường dùng
-
-```text
-$security-team khảo sát project và đề xuất kế hoạch, chưa chạy kiểm tra.
-```
-
-```text
-$security-team audit toàn diện source, cấu hình và dependency của project này.
-Không quét production, không sửa source. Ghi rõ phần chưa kiểm tra được.
-```
-
-```text
-$security-team review bảo mật phần diff hiện tại và các đường gọi bị ảnh hưởng.
-```
-
-```text
-$security-team xác minh các finding trong báo cáo trước, sau đó sửa những lỗi
-đã xác nhận trong phạm vi được phép và chạy test liên quan. Không commit/push.
-```
-
-## Báo cáo nhận được
-
-| File | Nội dung |
+| Manifest status | Meaning |
 |---|---|
-| `project-profile.md` | Stack, snapshot source, bề mặt tấn công, giả định và phạm vi |
-| `audit-plan.md` | Quyết định dùng/bỏ qua đủ 11 repo, thứ tự và prerequisite |
-| `coverage.json` | Phần đã kiểm tra, chưa kiểm tra, bị chặn và bằng chứng |
-| `findings.json` | Finding đã chuẩn hóa, trạng thái, nguồn, xác minh và bản vá |
-| `REPORT.md` | Kết quả tiếng Việt, lỗi ưu tiên, hạn chế và bước tiếp theo |
+| `cloned` | This run completed the clone and recorded its commit. |
+| `existing_unverified` | The destination already existed and was left untouched. |
+| `failed` | The clone failed; inspect the error and any partial directory. |
 
-Chế độ khảo sát chỉ tạo profile và kế hoạch. Công cụ không chạy được không được tính là đã kiểm tra. Không dùng số lượng finding hay điểm số làm chứng nhận project an toàn.
+The script continues after individual clone failures and returns an error at the end if any failed. Re-running does not pull, reset or repair existing directories. Git LFS objects, release attachments, external models and dependencies require upstream-specific steps.
 
-## Cập nhật và gỡ cài đặt
+## Evidence and reports
 
-Trước khi cập nhật repo, kiểm tra `git status`; khi không có thay đổi cục bộ cần giữ, dùng `git pull --ff-only`. Xem diff trước khi áp dụng bản skill mới. Installer không ghi đè bản đã cài: sao lưu hoặc đổi tên bản cũ rồi cài lại. Với upstream, cập nhật từng repo được chọn giữa các lượt audit và ghi lại commit mới; không tự nâng cấp trong lúc audit.
+| Artifact | Purpose |
+|---|---|
+| `project-profile.md` | Stack, source snapshot, boundaries and scope assumptions. |
+| `audit-plan.md` | Selection decisions for all eleven repositories and task dependencies. |
+| `coverage.json` | Completed, partial, blocked and skipped checks, with evidence. |
+| `findings.json` | Normalized findings, provenance, verification and remediation status. |
+| `REPORT.md` | Prioritized issues, unresolved leads, limitations and next actions. |
 
-Để gỡ skill, xóa đúng thư mục `security-team` đã cài sau khi kiểm tra đường dẫn. Gỡ skill này không gỡ upstream, dependency hoặc hooks đã cài riêng; thực hiện theo tài liệu của từng công cụ.
+Survey-only runs produce the profile and plan. Audit findings distinguish `candidate`, `confirmed`, `needs_validation`, `rejected` and `fixed_verified`. A proposed patch is not a verified fix. The [report contract](skills/security-team/references/reporting.md) defines the fields; these files are agent-produced artifacts, not a bundled schema-validated runtime.
 
-## Xử lý lỗi thường gặp
+## Permissions and boundaries
 
-- **Không thấy skill:** kiểm tra thư mục `security-team/SKILL.md`, tránh lồng thêm một thư mục; khởi động lại Codex nếu cần.
-- **Script bị chặn:** dùng cách copy thủ công hoặc quy trình được quản trị viên cho phép; không cần đổi execution policy toàn máy.
-- **Không tìm thấy Git/Python/Node:** chỉ cài thành phần cần cho tác vụ đang chọn; thiếu Python không ngăn dùng skill điều phối.
-- **Toolkit tải chưa đủ:** xem manifest JSON và lỗi từng repo; bản clone dở được để nguyên để kiểm tra, không tự xóa.
-- **Có source nhưng tool chưa chạy được:** source, dependency và tích hợp host là ba bước riêng. Yêu cầu skill lập bảng readiness.
-- **Không có subagent hoặc isolation cần thiết:** chuyển sang phần phân tích được phép, ghi rõ giới hạn; không giả lập rằng verifier độc lập đã chạy.
+- Audit runs are report-only unless fixes are requested.
+- Upstream instructions cannot grant permission to install tools, change credentials, alter database schemas, commit, push or deploy.
+- Runtime checks require an appropriate local/staging target and isolation; production probing needs explicit scope.
+- External-worker output is advisory. Codex checks material claims against evidence.
+- Missing tools, blocked tests and unreviewed areas remain visible in the report.
 
-## Kiểm tra và giới hạn
+Zero findings does not establish that a project is secure.
 
-Chạy `scripts/Test-Package.ps1` để kiểm tra cấu trúc, liên kết và danh mục. Xem [VALIDATION.md](VALIDATION.md) cho kết quả thực tế và [validation-scenarios.md](validation-scenarios.md) cho các ca nghiệm thu hành vi.
+## Updates and removal
 
-Chưa kiểm thử end-to-end cả 11 upstream trên project thật. Danh mục là mô tả từ tài liệu, không phải chứng nhận chất lượng. Repo này không chứa source bên thứ ba và không có quan hệ đại diện chính thức với các tác giả upstream. Giấy phép của mỗi upstream áp dụng riêng. Repo hiện chưa chọn giấy phép phân phối cho phần nội dung riêng.
+Check `git status` before updating this checkout. When there are no local changes to preserve, use `git pull --ff-only`, then review the changes. The installer refuses to overwrite: back up or rename the previous installed skill before reinstalling. Update selected upstreams between audit runs and record their new commits.
+
+To remove the skill, verify and remove only its installed `security-team` directory. This does not remove separately installed upstream tools or hooks; follow their own removal instructions.
+
+<details>
+<summary>Troubleshooting</summary>
+
+| Symptom | What to check |
+|---|---|
+| Skill does not appear | Confirm `security-team/SKILL.md` is at the expected level, then restart Codex. |
+| PowerShell blocks scripts | Use manual copying or your administrator-approved process. |
+| Python or Node.js is missing | Install only prerequisites needed by selected upstream tasks; the coordinator itself needs neither. |
+| Toolkit download is incomplete | Inspect the manifest; existing and partial directories are intentionally preserved. |
+| Source is present but a tool cannot run | Check dependencies and host integration separately. |
+| No independent workers or execution isolation | Continue permitted analysis and record the limitation; do not claim skipped verification ran. |
+
+</details>
+
+## Documentation
+
+- [Vietnamese guide](README.vi.md)
+- [Coordinator instructions](skills/security-team/SKILL.md)
+- [Toolkit prerequisites](docs/prerequisites.md)
+- [Selection catalog](skills/security-team/references/catalog.md)
+- [Execution and worker contracts](skills/security-team/references/workflow.md)
+- [Report contract](skills/security-team/references/reporting.md)
+- [Validation record](VALIDATION.md)
+- [Behavioral acceptance scenarios](validation-scenarios.md)
+
+## Validation and project status
+
+```powershell
+& .\scripts\Test-Package.ps1
+```
+
+The package checks cover structure, local links, the catalog and PowerShell syntax. Installer copy behavior, overwrite refusal, preview behavior and existing-directory manifest handling have been exercised. Live end-to-end integration of the eleven upstreams has **not** been tested. See [VALIDATION.md](VALIDATION.md) for the exact scope.
+
+This repository contains its own coordination instructions, setup helpers and documentation. Upstream source is not bundled. Each upstream retains its own license; no license has yet been selected for this repository's original content.
+
+The README's visual direction was inspired by [Bug Hunter](https://github.com/codexstar69/bug-hunter). Security Team's artwork and workflow text were created for this project. No upstream affiliation or endorsement is implied.
