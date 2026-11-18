@@ -1,17 +1,18 @@
 ---
 name: security-team
-description: Assess a project's security needs and coordinate a selected team from an eleven-repository security toolkit. Use for security audit planning, full codebase audits, or security remediation when requested; not for routine code review unrelated to security.
+description: Assess a project's security needs and coordinate a selected team from a twelve-repository security toolkit. Use for security audit planning, full codebase audits, vulnerability report drafting and triage, or security remediation when requested; not for routine code review unrelated to security.
 ---
 
 # Security Team
 
-Give the user one entry point for security assessment. Codex owns scoping, selection, sequencing, evidence validation and synthesis. The eleven repositories are sources of specialist methods or tools, not eleven independent authorities.
+Give the user one entry point for security assessment. Codex owns scoping, selection, sequencing, evidence validation and synthesis. The twelve repositories are sources of specialist methods or tools, not twelve independent authorities.
 
 ## Choose the requested mode
 
 - Requests to recommend, assess readiness, or decide what to use: survey and plan only.
 - Requests to audit/review security: survey, then execute applicable authorized checks; report-only by default.
-- Comprehensive/all-eleven requests: consider all eleven explicitly, deepen applicable coverage, never run irrelevant tools to satisfy a count.
+- For a supplied finding or report draft, review only the supplied scope and evidence. Use the [Claude Kit routing notes](references/claude-kit.md) when drafting, triaging or resolving a specific evidence question. Return the requested review without starting a new source audit.
+- Comprehensive/all-twelve requests: consider all twelve explicitly, deepen applicable coverage, never run irrelevant tools to satisfy a count.
 - Fix requests: add scoped remediation after verification. Existing user permissions govern edits; do not request duplicate approval for already-authorized actions.
 
 Proceed with discoverable context. Ask only for indispensable missing target/scope or permission. Do not ask the user which repository to choose. Explain the selected team briefly before executing it.
@@ -28,7 +29,7 @@ No automatic global skill installation, hook installation, privilege escalation,
 
 1. **Inventory.** Identify target root, Git commit and uncommitted state (or a file snapshot for non-Git projects), languages, frameworks, entry points, auth roles, tenant boundaries, sensitive data, dependencies/lockfiles, deployment config, CI, tests, and release artifacts. Inspect metadata before running project commands. Do not read unrelated personal files or credentials. Use a redacted example config where possible.
 2. **Locate capabilities.** Read [references/catalog.md](references/catalog.md). Search only the user-provided toolkit root, known installed skills/plugins, and an existing `Documents/Security-Toolkit` folder. Do not crawl the whole disk. For each selected local upstream, inspect its actual README, SKILL entrypoint and relevant scripts/config, record revision and integration requirements. Fetching a README for research is not installing or activating a skill.
-3. **Plan.** Apply [references/workflow.md](references/workflow.md). Write project profile and a decision for every one of the eleven repos: selected, not applicable, redundant, unavailable, or approval required, with evidence and reason. Separate methodology-only use from executable-tool use. Build tasks with dependencies, bounded scope, allowed operations and expected evidence. Never claim a missing tool was run because its method was emulated.
+3. **Plan.** Apply [references/workflow.md](references/workflow.md). Write project profile and a decision for every one of the twelve repos: selected, not applicable, redundant, unavailable, or approval required, with evidence and reason. Separate methodology-only use from executable-tool use. Build tasks with dependencies, bounded scope, allowed operations and expected evidence. Never claim a missing tool was run because its method was emulated.
 4. **Execute.** Run eligible tasks in dependency order. Parallelize only independent read-only work on the same snapshot. Codex remains coordinator; use selected upstream procedures as subordinate stages. No nested full orchestrators or auto-fix loops. Record command/tool, revision, exit status, scope and artifact paths. Review unexpected execution/network behavior before running it.
 5. **Verify.** Treat scanner/AI findings as candidates. Check attacker control, reachability, defenses, impact and reproducibility. Prefer an independent verifier when available and allowed; otherwise disclose same-agent verification. Lack of reproduction alone does not refute a static finding. Record remaining uncertainty explicitly.
 6. **Report or fix.** Use [references/reporting.md](references/reporting.md). Deduplicate by root cause and affected boundary, retain all locations/provenance. If fixing was requested, Codex applies scoped changes, runs relevant regression checks and revalidates variants. Any source change invalidates stale evidence for affected units. Never auto-commit from an upstream workflow.
