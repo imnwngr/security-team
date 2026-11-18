@@ -5,12 +5,14 @@ Use Vietnamese unless the user requests otherwise. Each run has its own output d
 ## Required artifacts
 
 - `project-profile.md`: target, source snapshot/dirty state, stack, attack surfaces, assumptions, environment and exclusions.
-- `audit-plan.md`: mode, selected tasks/dependencies, evidence-based selection status for all eleven repos, upstream paths/revisions, integration mode, pending prerequisites/permissions.
+- `audit-plan.md`: mode, selected tasks/dependencies, evidence-based selection status for all twelve repos, upstream paths/revisions, integration mode, pending prerequisites/permissions.
 - `coverage.json`: units with ID, scope, snapshot, method, task status (`planned`, `running`, `completed`, `partial`, `blocked`, `skipped`), checks performed, evidence paths and gaps. Completed means a scoped check completed, not that a unit is secure.
 - `findings.json`: normalized records as specified below. Preserve raw upstream results separately.
 - `REPORT.md`: executive result, prioritized confirmed issues, unresolved leads, hardening notes, coverage gaps, changes/tests, worker usage and pending approvals.
 
 Survey-only mode needs just profile and plan; clearly state that no audit was executed. Runtime audit may add redacted logs or reproduction artifacts. No empty placeholder reports that imply a stage ran.
+
+For a standalone draft or evidence review, return the requested draft, corrections or evidence assessment. Cite the supplied finding ID and artifacts where available. The full set of audit artifacts applies when coordinating an audit.
 
 ## Finding record
 
@@ -36,6 +38,8 @@ Each record includes:
 
 Deduplicate matching root cause and boundary, preserving all affected locations and provenance. Do not merge distinct authorization and concurrency bugs just because they share a line. A rejected record retains refuting evidence. `fixed_verified` requires a patch and actual validation; a suggested fix is not a fixed vulnerability. Keep original finding evidence with its original snapshot.
 
+When Claude Kit is selected, record the upstream revision, the guidance used and the reviewer under the existing provenance or verification fields. In the draft review, give the readiness verdict, the evidence for each requested correction and any missing scope information. Keep the finding ID, original detector, verification status and severity tied to the underlying evidence. A same-agent draft review adds no independent verification or scanner coverage. See [Claude Kit routing](claude-kit.md).
+
 ## Final completion gate
 
-Check that every selected task has a recorded outcome, all eleven selection decisions exist, confirmed findings have grounded evidence, tests are reported honestly and blockers remain visible. List missing dynamic validation separately from static review conclusions. Do not claim OWASP certification, complete security, or a clean pass merely because the finding count is zero. A coverage percentage requires an explicit denominator; otherwise report counts and scope descriptions.
+Check that every selected task has a recorded outcome, all twelve selection decisions exist, confirmed findings have grounded evidence, tests are reported honestly and blockers remain visible. List missing dynamic validation separately from static review conclusions. Do not claim OWASP certification, complete security, or a clean pass merely because the finding count is zero. A coverage percentage requires an explicit denominator; otherwise report counts and scope descriptions.
