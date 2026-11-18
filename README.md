@@ -7,7 +7,7 @@
 <p align="center">Project-aware security reviews, coordinated by Codex.</p>
 <p align="center">
   <img src="https://img.shields.io/badge/host-Codex-222222?style=flat-square" alt="Host: Codex">
-  <img src="https://img.shields.io/badge/catalog-11_repositories-c5652a?style=flat-square" alt="Catalog: 11 repositories">
+  <img src="https://img.shields.io/badge/catalog-12_repositories-c5652a?style=flat-square" alt="Catalog: 12 repositories">
   <img src="https://img.shields.io/badge/default-report_only-555555?style=flat-square" alt="Default: report only">
 </p>
 <p align="center"><strong>English</strong> · <a href="README.vi.md">Tiếng Việt</a></p>
@@ -21,12 +21,12 @@
 
 ---
 
-Security Team helps you answer **“Which security tools does this project actually need?”** It guides Codex to inspect the project, choose relevant methods and tools from an eleven-repository catalog, order the work, challenge findings, and produce one evidence-based report.
+Security Team helps you answer **“Which security tools does this project actually need?”** It guides Codex to inspect the project, choose relevant methods and tools from a twelve-repository catalog, order the work, challenge findings, and produce one evidence-based report.
 
 You describe the goal. Codex coordinates the work. Each selected tool gets a bounded role; irrelevant or unavailable tools are recorded with a reason.
 
 > [!NOTE]
-> This is an **instruction-based skill with setup helpers**, not a standalone scanner or an already integrated eleven-tool runtime. Selected upstream tools need their own prerequisites and compatible host integrations. Full end-to-end integration has not yet been tested.
+> This is an **instruction-based skill with setup helpers**, not a standalone scanner or an already integrated twelve-tool runtime. Selected upstream tools need their own prerequisites and compatible host integrations. Full end-to-end integration has not yet been tested.
 
 ## Quick start
 
@@ -43,7 +43,7 @@ Set-Location security-team
 & .\scripts\Install-Skill.ps1 -WhatIf
 & .\scripts\Install-Skill.ps1
 
-# Download the eleven upstream source repositories. No dependencies installed.
+# Download the twelve upstream source repositories. No dependencies installed.
 & .\scripts\Get-Toolkit.ps1 -WhatIf
 & .\scripts\Get-Toolkit.ps1
 ```
@@ -72,13 +72,13 @@ The installer copies the complete skill to `~/.agents/skills/security-team`. It 
 | Decision | What happens |
 |---|---|
 | Understand the project | Identify the stack, entry points, sensitive data, trust boundaries and source revision. |
-| Choose the team | Consider all eleven repositories; record selected, redundant, not applicable, unavailable or approval-required roles. |
+| Choose the team | Consider all twelve repositories; record selected, redundant, not applicable, unavailable or approval-required roles. |
 | Bound the work | Give each check a scope, prerequisites, allowed actions and expected evidence. |
 | Challenge the findings | Trace claims through source, evaluate existing defenses and distinguish proof from uncertainty. |
 | Join the results | Deduplicate by root cause while preserving affected locations, tool provenance and coverage gaps. |
 | Fix when requested | Apply scoped changes, run relevant regression checks and revisit affected evidence. |
 
-A comprehensive audit expands relevant coverage. It does not launch eleven full orchestrators or count missing tools as completed checks.
+A comprehensive audit expands relevant coverage. It does not launch twelve full orchestrators or count missing tools as completed checks.
 
 ## Pipeline overview
 
@@ -89,11 +89,11 @@ A comprehensive audit expands relevant coverage. It does not launch eleven full 
 | Stage | Job | Evidence |
 |---|---|---|
 | **01 · Assess** | Map the project, permissions and installed capabilities. | `project-profile.md` |
-| **02 · Select** | Build the threat model, choose specialists and record all eleven selection decisions. | `audit-plan.md` |
+| **02 · Select** | Build the threat model, choose specialists and record all twelve selection decisions. | `audit-plan.md` |
 | **03 · Baseline** | Check relevant secrets, dependencies and common vulnerabilities. | Raw results and candidate findings |
 | **04 · Deep review** | Examine high-risk paths with the primary audit procedure and selected specialists. | Source traces and `coverage.json` |
-| **05 · Verify** | Challenge candidates; run scoped reproductions when permitted and available. | Finding evidence and unresolved facts |
-| **06 · Report** | Combine findings, priorities, provenance and coverage gaps. | `findings.json` and `REPORT.md` |
+| **05 · Verify** | Challenge candidates. For a disputed claim, Claude Kit can help assess the evidence already collected. | Finding evidence and unresolved facts |
+| **06 · Report** | Combine findings, priorities, provenance and gaps. Select Claude Kit when a finding needs a draft or a draft needs triage. | `findings.json` and `REPORT.md` |
 | **Optional · Fix & recheck** | Make requested changes and verify their effects. | Diff, regression results and updated evidence |
 
 Independent read-only checks can run in parallel on the same source snapshot. Runtime validation depends on a scoped target and suitable isolation. If independent verification is unavailable, the report must say so.
@@ -104,7 +104,7 @@ Independent read-only checks can run in parallel on the same source snapshot. Ru
 ```text
 Your project
   -> assess stack, scope and available capabilities
-  -> select relevant roles from all 11 repositories
+  -> select relevant roles from all 12 repositories
   -> model threats and order the checks
   -> baseline scans + deep review
   -> challenge findings and verify evidence
@@ -131,8 +131,11 @@ These repositories provide methods or tools, not independent decision authority.
 | Business-logic challenge | [Bug Hunter](https://github.com/codexstar69/bug-hunter) | Important authorization, payment, quota and concurrency paths. |
 | Threat-model / native harness reference | [Anthropic Reference Harness](https://github.com/anthropics/defending-code-reference-harness) | Threat modeling and suitable native-code validation workflows. |
 | Artifact and infrastructure review | [ptn1411 Skills](https://github.com/ptn1411/skill) | Release packages, SBOM, container/cloud configuration and relevant artifacts. |
+| Reporting, vulnerability triage and evidence validation | [YesWeHack Claude Kit](https://github.com/yeswehack/claude-kit) | Review an existing claim against its evidence, draft a confirmed finding or check a report before delivery. |
 
 **For a typical web/API project:** start with relevant OWASP controls, common-code checks and secret/dependency evidence; use Cloudflare's procedure with selected Trail of Bits methods for deeper review; add business-logic or artifact checks where the project warrants them.
+
+Codex reads Claude Kit’s selected Markdown guidance on demand. Its Claude Code session hook and slash commands are outside this integration. A draft-readiness verdict belongs to the report and leaves the finding’s verification status to Codex. See the [Claude Kit routing notes](skills/security-team/references/claude-kit.md).
 
 Cloning a repository makes its source available. It does not install its scanner, activate its hooks or prove host compatibility. See the [dependency guide](docs/prerequisites.md).
 
@@ -148,6 +151,7 @@ These are prompts for your coding agent, not terminal commands or implemented CL
 | Focus on one area | `$security-team audit src/auth and its authorization boundaries.` |
 | Review release artifacts | `$security-team assess the supplied release package and document source visibility limits.` |
 | Verify earlier findings | `$security-team verify the previous findings and report what remains unresolved.` |
+| Triage a draft | `$security-team review this draft against the attached evidence and program scope. Flag unsupported claims and missing facts.` |
 | Request fixes | `$security-team fix confirmed issues within the permitted scope, run regression checks, and do not commit or push.` |
 
 Request a report language explicitly if needed. The skill currently defaults to Vietnamese.
@@ -212,7 +216,7 @@ The script continues after individual clone failures and returns an error at the
 | Artifact | Purpose |
 |---|---|
 | `project-profile.md` | Stack, source snapshot, boundaries and scope assumptions. |
-| `audit-plan.md` | Selection decisions for all eleven repositories and task dependencies. |
+| `audit-plan.md` | Selection decisions for all twelve repositories and task dependencies. |
 | `coverage.json` | Completed, partial, blocked and skipped checks, with evidence. |
 | `findings.json` | Normalized findings, provenance, verification and remediation status. |
 | `REPORT.md` | Prioritized issues, unresolved leads, limitations and next actions. |
@@ -266,7 +270,7 @@ To remove the skill, verify and remove only its installed `security-team` direct
 & .\scripts\Test-Package.ps1
 ```
 
-The package checks cover structure, local links, the catalog and PowerShell syntax. Installer copy behavior, overwrite refusal, preview behavior and existing-directory manifest handling have been exercised. Live end-to-end integration of the eleven upstreams has **not** been tested. See [VALIDATION.md](VALIDATION.md) for the exact scope.
+The package checks cover structure, local links, the catalog and PowerShell syntax. Installer copy behavior, overwrite refusal, preview behavior and existing-directory manifest handling have been exercised. Live end-to-end integration of the twelve upstreams has **not** been tested. See [VALIDATION.md](VALIDATION.md) for the exact scope.
 
 This repository contains its own coordination instructions, setup helpers and documentation. Upstream source is not bundled. Each upstream retains its own license; no license has yet been selected for this repository's original content.
 
