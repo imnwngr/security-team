@@ -1,6 +1,6 @@
 # Catalog and routing
 
-Capability snapshot: 2026-10-27, based on upstream documentation. Verify the actual checked-out version before use. URLs below are provenance, not commands to install. Clone convention: `owner__repo` under a separate toolkit root. Source availability does not imply executable readiness or host compatibility.
+The original entries were reviewed on 2026-10-27. The Claude Kit entry links to its separately reviewed revision. Verify the actual checked-out version before use. URLs below are provenance, not commands to install. Clone convention: `owner__repo` under a separate toolkit root. Source availability does not imply executable readiness or host compatibility.
 
 | Repository | Assigned role | Select when | Avoid / limitations |
 |---|---|---|---|
@@ -15,6 +15,7 @@ Capability snapshot: 2026-10-27, based on upstream documentation. Verify the act
 | [codexstar69/bug-hunter](https://github.com/codexstar69/bug-hunter) | Business-logic and adversarial challenge | Auth/payment/quota/concurrency paths, high-risk changes, unresolved hypotheses | Use bounded report-only/plan mode unless fixes requested. Disable autonomous edits/auto-commit according to host policy. Do not repeat all-source orchestration without a specific gap. |
 | [anthropics/defending-code-reference-harness](https://github.com/anthropics/defending-code-reference-harness) | Threat-model reference; optional execution harness | Threat-modeling guidance; C/C++ memory-safety work where Docker/ASAN/isolation and API access exist | README states reference implementation is unmaintained. Not a generic drop-in runner. Customization, installs, credentials and paid APIs need appropriate authorization. Do not disable gVisor/isolation requirements. |
 | [ptn1411/skill](https://github.com/ptn1411/skill) | Artifact/infrastructure specialist | Container/cloud config, SBOM, Electron/APK/binaries, deployment evidence or Windows logs in scope | Select the actual relevant subskill, inspect its scripts. Do not invoke full network assessment for a source-only audit. Do not globally sync all skills. Reverse engineering is unnecessary when source answers the question; artifact checks can still detect release differences. |
+| [yeswehack/claude-kit](https://github.com/yeswehack/claude-kit) | Reporting, vulnerability triage and evidence validation | A confirmed finding needs a write-up, a draft needs review, or a specific class/impact claim lacks clear support. | Use the [Codex methodology](claude-kit.md) against existing evidence. Skip for discovery, routine synthesis or work already answered by a verifier. |
 
 ## Selection defaults
 
@@ -22,4 +23,4 @@ For a typical web/API repository: OWASP coverage reference, vbsec baseline when 
 
 For a small low-risk library: narrower source review, relevant dependency evidence, selected language specialists; do not launch multiple full pipelines. For native memory-unsafe targets: prioritize entry points, sanitizers/fuzzing and reproducibility. For AI/MCP targets: prioritize untrusted-content boundaries, tool permissions, secret handling and agent CI workflows. For packaged apps: compare release artifacts to expected source/configuration. For a diff request: restrict to changed code and affected callers/boundaries.
 
-No role must be filled merely because a repository exists. Record skipped reasons for all eleven. If an unavailable role is covered manually, label the result `Codex manual review`, not the name of the missing tool.
+No role must be filled merely because a repository exists. Record skipped reasons for all twelve. If an unavailable role is covered manually, label the result `Codex manual review`, not the name of the missing tool.

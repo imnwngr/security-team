@@ -41,7 +41,7 @@ foreach ($name in $images) {
 }
 $catalog = Get-Content -LiteralPath (Join-Path $skillRoot 'references/catalog.md') -Raw
 $repoCount = [regex]::Matches($catalog, '\| \[[^\]]+\]\(https://github.com/').Count
-if ($repoCount -ne 11) { throw "Expected 11 catalog repos; found $repoCount" }
+if ($repoCount -ne 12) { throw "Expected 12 catalog repos; found $repoCount" }
 foreach ($file in (Get-ChildItem -LiteralPath $PSScriptRoot -Filter '*.ps1')) {
     $tokens = $null
     $parseErrors = $null
@@ -50,5 +50,5 @@ foreach ($file in (Get-ChildItem -LiteralPath $PSScriptRoot -Filter '*.ps1')) {
 }
 $metadata = Get-Content -LiteralPath (Join-Path $skillRoot 'agents/openai.yaml') -Raw
 if (-not $metadata.Contains('$security-team')) { throw 'Missing skill invocation metadata.' }
-Write-Output "PASS: frontmatter, $linkCount Markdown links, $htmlLinkCount HTML assets/links, $($images.Count) SVGs, 11 catalog entries, PowerShell syntax and invocation metadata."
+Write-Output "PASS: frontmatter, $linkCount Markdown links, $htmlLinkCount HTML assets/links, $($images.Count) SVGs, 12 catalog entries, PowerShell syntax and invocation metadata."
 Write-Output 'This structural check is not a YAML schema validator or an end-to-end security audit.'
