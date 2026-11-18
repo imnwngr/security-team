@@ -1,6 +1,6 @@
 # Toolkit prerequisites and readiness
 
-Security Team is a Codex skill and an eleven-repository **routing catalog**. The coordinator can assess a project with Git, PowerShell and Codex access. Downloading toolkit sources does not activate upstream scanners, install dependencies, or enable hooks.
+Security Team is a Codex skill and a twelve-repository **routing catalog**. The coordinator can assess a project with Git, PowerShell and Codex access. Downloading toolkit sources does not activate upstream scanners, install dependencies, or enable hooks.
 
 Use the [routing catalog](../skills/security-team/references/catalog.md) to select relevant upstreams before installing anything. Check each repository's README, lockfiles, release notes, license and host support at the **checked-out commit**. Upstream requirements may change.
 
@@ -30,6 +30,7 @@ Do not equate source availability or methodology-only use with a verified scanne
 | [Bug Hunter](https://github.com/codexstar69/bug-hunter) | Install for the actual host; preserve scan-only defaults unless fixing is requested. |
 | [Anthropic Reference Harness](https://github.com/anthropics/defending-code-reference-harness) | Maintenance status, native-code applicability, Docker/isolation, Python and API prerequisites. |
 | [ptn1411 Skills](https://github.com/ptn1411/skill) | A concrete subskill, Python requirements and artifact-specific tools. |
+| [YesWeHack Claude Kit](https://github.com/yeswehack/claude-kit) | Read the selected Markdown files from the recorded checkout. Codex needs no Claude Code plugin, hook, account or API key for this role. See the [reviewed revision and license](../skills/security-team/references/claude-kit.md). |
 
 ## Recommended sequence
 
