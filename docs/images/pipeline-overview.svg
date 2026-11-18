@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1380" height="675" viewBox="0 0 1380 675" role="img" aria-labelledby="title desc">
   <title id="title">Security Team pipeline overview</title>
-  <desc id="desc">Assess the project, select from eleven repositories, run baseline checks, perform deep review, verify evidence, and report. Fix and recheck is an optional approved step.</desc>
+  <desc id="desc">Assess the project, select from twelve repositories, run baseline checks, perform deep review, verify evidence, and report. Fix and recheck is an optional approved step.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0C1420"/><stop offset="1" stop-color="#1B2A3D"/></linearGradient>
     <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10" fill="none" stroke="#E0A16F" stroke-width="2"/></marker>
@@ -19,7 +19,7 @@
     <rect x="490" y="196" width="385" height="145" rx="13" fill="#352B29" stroke="#A17B61"/><rect x="490" y="196" width="7" height="145" rx="3" fill="#E7A570"/>
     <text x="514" y="229" fill="#EDBF9C" font-size="15" font-weight="700">02 / ROUTING</text>
     <text x="514" y="273" fill="#F4F6F6" font-size="29" font-weight="700">Select</text>
-    <text x="514" y="305" fill="#DFCEC2" font-size="17">Evaluate all 11; choose relevant roles.</text>
+    <text x="514" y="305" fill="#DFCEC2" font-size="17">Consider 12 sources and select by need.</text>
     <rect x="933" y="196" width="382" height="145" rx="13" fill="#172A3C" stroke="#68869A"/><rect x="933" y="196" width="7" height="145" rx="3" fill="#75B7BB"/>
     <text x="957" y="229" fill="#ABD0DC" font-size="15" font-weight="700">03 / FIRST PASS</text>
     <text x="957" y="273" fill="#F4F6F6" font-size="29" font-weight="700">Baseline</text>
