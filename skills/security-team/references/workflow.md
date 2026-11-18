@@ -4,16 +4,18 @@
 
 | Stage | Prerequisite | Work | Exit evidence |
 |---|---|---|---|
-| 0. Readiness | Target is identified | Scope/snapshot, instructions, existing protection, installed capabilities, toolkit review | project-profile.md; all-eleven selection table |
+| 0. Readiness | Target is identified | Scope/snapshot, instructions, existing protection, installed capabilities, toolkit review | project-profile.md; all-twelve selection table |
 | 1. Model | Readiness | Entry points, trust boundaries, sensitive assets, abuse cases; choose relevant OWASP controls | audit-plan.md with prioritized coverage units |
 | 2. Baseline | Model; scanners ready | Independent secret/dependency scans and bounded common-code review; optional SBOM/config review | Raw redacted artifacts plus candidate findings |
 | 3. Deep review | Model; baseline evidence when relevant | Cloudflare procedure; selected Trail of Bits specialists; relevant artifact modules | Coverage units, source traces, new candidates |
-| 4. Challenge | Candidate or concrete residual risk | Independent verification; Bug Hunter logic pass or PYA targeted second opinion if useful | Confirmed/rejected/needs-validation decisions |
+| 4. Challenge | Candidate or concrete residual risk | Independent verification; Bug Hunter logic pass or PYA targeted second opinion if useful. For a specific disputed claim, optionally compare existing evidence with Claude Kit’s class criteria | Confirmed/rejected/needs-validation decisions |
 | 5. Runtime validation | Scoped local/staging target; isolation; allowed execution | Reproduce selected candidates, dynamic validation or native sanitizer/fuzzing | Bounded observations, reproducible commands/tests, limitations |
 | 6. Remediation | Verified finding and fix authorization | Codex patches; regression checks and variant review | Diff, before/after evidence, current-snapshot validation |
-| 7. Report | Every selected task has outcome | Dedupe, prioritize by demonstrated impact, report gaps | REPORT.md and findings.json |
+| 7. Report | Every selected task has outcome | Dedupe, prioritize by demonstrated impact, report gaps. Optionally use Claude Kit to draft a confirmed finding or triage an existing draft | REPORT.md and findings.json |
 
 Stages 2 and 3 can overlap for independent units; a failing dependency scan need not block source review. Runtime validation is conditional, not a mandatory precondition for every defensible static conclusion. Report-only runs skip stage 6. Survey-only runs stop after the plan.
+
+A report-only request about a supplied draft can enter directly at the report stage. Use the [Claude Kit routing notes](claude-kit.md) for inputs, missing evidence and draft verdicts. Reuse the verifier’s artifacts and preserve the original task attribution.
 
 Create a bounded work queue, not a fixed token budget. Start with at most three independent review tasks at once when the host supports safe delegation; lower concurrency to fit resources. Honor any user budget. Do not silently invoke paid APIs or launch external workers merely to fill roles.
 
