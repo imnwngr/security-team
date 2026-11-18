@@ -8,11 +8,11 @@ $repos = @(
     'agamm/claude-code-owasp', 'tanviet12/vbsec', 'ghostsecurity/skills',
     'cloudflare/security-audit-skill', 'trailofbits/skills', 'AgriciDaniel/pya',
     'codexstar69/bug-hunter', 'anthropics/defending-code-reference-harness',
-    'ptn1411/skill'
+    'ptn1411/skill', 'yeswehack/claude-kit'
 )
 if (-not (Get-Command git -ErrorAction SilentlyContinue)) { throw 'Git is required.' }
 $root = [IO.Path]::GetFullPath($Destination)
-if (-not $PSCmdlet.ShouldProcess($root, 'Clone 11 repositories and write a revision manifest; no installs')) { return }
+if (-not $PSCmdlet.ShouldProcess($root, "Clone $($repos.Count) repositories and write a revision manifest; no installs")) { return }
 New-Item -ItemType Directory -Path $root -Force | Out-Null
 $manifestPath = Join-Path $root ('toolkit-manifest-' + [guid]::NewGuid().ToString('N') + '.json')
 $records = @()
