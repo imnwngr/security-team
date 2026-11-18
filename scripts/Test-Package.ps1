@@ -39,9 +39,23 @@ foreach ($name in $images) {
     catch { throw "Invalid diagram XML: $($name): $($_.Exception.Message)" }
     if ($svg.DocumentElement.LocalName -ne 'svg') { throw "Invalid SVG root: $name" }
 }
-$catalog = Get-Content -LiteralPath (Join-Path $skillRoot 'references/catalog.md') -Raw
-$repoCount = [regex]::Matches($catalog, '\| \[[^\]]+\]\(https://github.com/').Count
-if ($repoCount -ne 12) { throw "Expected 12 catalog repos; found $repoCount" }
+function Get-TableRepositories([string]$Path) {
+    $rows = Get-Content -LiteralPath $Path -Encoding UTF8
+    foreach ($row in $rows) {
+        if ($row -match '^\|[^\r\n]*?\]\(https://github\.com/([\w.-]+/[\w.-]+)\)') {
+            $Matches[1]
+        }
+    }
+}
+$repos = @(Get-TableRepositories (Join-Path $skillRoot 'references/catalog.md') | Sort-Object)
+if ($repos.Count -ne 12 -or ($repos | Sort-Object -Unique).Count -ne 12 -or
+    $repos -cnotcontains 'yeswehack/claude-kit') {
+    throw 'Expected 12 distinct catalog repositories including yeswehack/claude-kit.'
+}
+foreach ($guide in @('README.md', 'README.vi.md', 'docs/prerequisites.md')) {
+    $listed = @(Get-TableRepositories (Join-Path $root $guide) | Sort-Object)
+    if (($listed -join ',') -cne ($repos -join ',')) { throw "Repository table differs from catalog in $guide" }
+}
 foreach ($file in (Get-ChildItem -LiteralPath $PSScriptRoot -Filter '*.ps1')) {
     $tokens = $null
     $parseErrors = $null
@@ -50,5 +64,6 @@ foreach ($file in (Get-ChildItem -LiteralPath $PSScriptRoot -Filter '*.ps1')) {
 }
 $metadata = Get-Content -LiteralPath (Join-Path $skillRoot 'agents/openai.yaml') -Raw
 if (-not $metadata.Contains('$security-team')) { throw 'Missing skill invocation metadata.' }
-Write-Output "PASS: frontmatter, $linkCount Markdown links, $htmlLinkCount HTML assets/links, $($images.Count) SVGs, 12 catalog entries, PowerShell syntax and invocation metadata."
+
+Write-Output "PASS: frontmatter, $linkCount Markdown links, $htmlLinkCount HTML assets/links, $($images.Count) SVGs, $($repos.Count) catalog entries matched in both READMEs and prerequisites, PowerShell syntax and invocation metadata."
 Write-Output 'This structural check is not a YAML schema validator or an end-to-end security audit.'
