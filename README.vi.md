@@ -7,16 +7,16 @@
 <p align="center">Quy trình rà soát bảo mật theo project, do Codex điều phối.</p>
 <p align="center">
   <img src="https://img.shields.io/badge/host-Codex-222222?style=flat-square" alt="Nền tảng: Codex">
-  <img src="https://img.shields.io/badge/catalog-11_repositories-c5652a?style=flat-square" alt="Danh mục: 11 repository">
+  <img src="https://img.shields.io/badge/catalog-12_repositories-c5652a?style=flat-square" alt="Danh mục: 12 repository">
   <img src="https://img.shields.io/badge/default-report_only-555555?style=flat-square" alt="Mặc định: chỉ báo cáo">
 </p>
 <p align="center"><a href="README.md">English</a> · <strong>Tiếng Việt</strong></p>
 
 ---
 
-**Một skill để khảo sát project, tự chọn bộ công cụ bảo mật và tổ chức audit đúng thứ tự.** Bạn mô tả mục tiêu; Codex xem project cần gì, chọn từ 11 repo và tổng hợp bằng chứng thành một báo cáo.
+**Một skill để khảo sát project, tự chọn bộ công cụ bảo mật và tổ chức audit đúng thứ tự.** Bạn mô tả mục tiêu; Codex xem project cần gì, chọn từ 12 repo và tổng hợp bằng chứng thành một báo cáo.
 
-Đây là skill dạng hướng dẫn, có script hỗ trợ cài đặt và tải source. Nó không phải scanner độc lập, không tự chạy khi chưa có coding agent và chưa có adapter thực thi được kiểm thử cho toàn bộ 11 upstream.
+Đây là skill dạng hướng dẫn, có script hỗ trợ cài đặt và tải source. Nó không phải scanner độc lập, không tự chạy khi chưa có coding agent và chưa có adapter thực thi được kiểm thử cho toàn bộ 12 upstream.
 
 ## Bắt đầu nhanh trên Windows
 
@@ -33,7 +33,7 @@ Set-Location security-team
 & .\scripts\Install-Skill.ps1 -WhatIf
 & .\scripts\Install-Skill.ps1
 
-# Tải source của 11 repo vào Documents/Security-Toolkit.
+# Tải source của 12 repo vào Documents/Security-Toolkit.
 & .\scripts\Get-Toolkit.ps1 -WhatIf
 & .\scripts\Get-Toolkit.ps1
 ```
@@ -89,7 +89,7 @@ Trên Windows cũng có thể dùng File Explorer để sao chép vào thư mụ
 
 Yêu cầu Codex đọc đường dẫn tuyệt đối đến `skills/security-team/SKILL.md`, rồi khảo sát project. Cách này cũng phù hợp khi muốn thử trước. Host khác có thể đọc phương pháp, nhưng quyền điều phối và tích hợp native của từng công cụ phải được đánh giá riêng; bản này được thiết kế với Codex điều phối.
 
-## Tải 11 repo: source khác với công cụ đã cài
+## Tải 12 repo: source khác với công cụ đã cài
 
 `Get-Toolkit.ps1` clone đầy đủ lịch sử Git thông thường và submodule, không dùng shallow clone. Script tạo manifest JSON chứa commit, đường dẫn và trạng thái từng repo; repo lỗi được ghi nhận và script tiếp tục tải những repo còn lại.
 
@@ -107,7 +107,7 @@ Có PowerShell 7 trên macOS/Linux thì có thể chạy script bằng `pwsh -Fi
 
 ## Các thành phần cần thiết sau khi khảo sát
 
-**Không cần cài cả 11 bộ để bắt đầu.** Cài skill điều phối trước, tải source tham khảo khi cần, rồi để skill lập danh sách prerequisite theo project. Mỗi bản upstream có thể đổi cách cài; đọc README của commit đã tải trước khi thực thi.
+**Không cần cài cả 12 bộ để bắt đầu.** Cài skill điều phối trước, tải source tham khảo khi cần, rồi để skill lập danh sách prerequisite theo project. Mỗi bản upstream có thể đổi cách cài; đọc README của commit đã tải trước khi thực thi.
 
 | Repo | Vai trò | Chuẩn bị khi được chọn |
 |---|---|---|
@@ -122,6 +122,7 @@ Có PowerShell 7 trên macOS/Linux thì có thể chạy script bằng `pwsh -Fi
 | [Bug Hunter](https://github.com/codexstar69/bug-hunter) | Lỗi logic, runtime, phản biện | Cài theo host thực tế; giữ report-only khi chưa yêu cầu sửa, không auto-commit |
 | [Anthropic reference harness](https://github.com/anthropics/defending-code-reference-harness) | Threat model, harness chuyên biệt | Đọc phương pháp không cần chạy harness; chạy harness cần Python/Docker/gVisor và quyền truy cập model theo upstream |
 | [ptn1411/skill](https://github.com/ptn1411/skill) | Artifact, SBOM, cloud/container | Python 3.10+ cho CLI; tool ngoài như JADX/Nmap/asar chỉ khi module tương ứng cần |
+| [YesWeHack Claude Kit](https://github.com/yeswehack/claude-kit) | Viết báo cáo, sàng lọc phát hiện và thẩm định bằng chứng | Codex đọc phần Markdown cần dùng khi có bằng chứng hoặc bản thảo cần rà soát. |
 
 Hai ví dụ cài dependency **tùy chọn**, chỉ sau khi đã đọc upstream và chấp thuận tác động:
 
@@ -151,7 +152,7 @@ Không chạy đồng thời hai bộ hooks mà chưa kiểm tra tương thích.
 
 ```mermaid
 flowchart TD
-    A[Khảo sát project và quyền hiện có] --> B[Xét đủ 11 repo, chọn vai trò phù hợp]
+    A[Khảo sát project và quyền hiện có] --> B[Xét đủ 12 repo, chọn vai trò phù hợp]
     B --> C[Threat model và kế hoạch bao phủ]
     C --> D[Quét nền: secret, dependency, lỗi phổ biến]
     D --> E[Audit sâu và chuyên gia theo stack]
@@ -164,7 +165,9 @@ flowchart TD
 
 </details>
 
-Codex điều phối một hàng đợi công việc. Các repo cung cấp phương pháp/công cụ cho từng giai đoạn; không khởi chạy 11 bộ điều phối đầy đủ lồng nhau. Việc xét đủ 11 luôn được ghi trong kế hoạch, nhưng kỹ thuật không phù hợp sẽ được bỏ qua có lý do.
+Codex điều phối một hàng đợi công việc. Các repo cung cấp phương pháp/công cụ cho từng giai đoạn; không khởi chạy 12 bộ điều phối đầy đủ lồng nhau. Việc xét đủ 12 luôn được ghi trong kế hoạch, nhưng kỹ thuật không phù hợp sẽ được bỏ qua có lý do.
+
+Khi một nhận định cần đối chiếu với bằng chứng đã thu thập, Codex có thể chọn `gotchas` cho đúng loại lỗi. Dùng `write` để soạn phần mô tả một phát hiện đã xác nhận hoặc `triage` để rà soát bản thảo theo phạm vi chương trình. Kết luận về bản thảo được ghi riêng với trạng thái của phát hiện. Cách tích hợp này chỉ đọc Markdown và không cần hook hay lệnh của Claude Code. Xem [hướng dẫn chọn Claude Kit](skills/security-team/references/claude-kit.md).
 
 ### Các cách gọi thường dùng
 
@@ -186,12 +189,17 @@ $security-team xác minh các finding trong báo cáo trước, sau đó sửa n
 đã xác nhận trong phạm vi được phép và chạy test liên quan. Không commit/push.
 ```
 
+```text
+$security-team rà soát bản thảo này theo bằng chứng và phạm vi đính kèm.
+Chỉ ra nhận định nào còn thiếu căn cứ.
+```
+
 ## Báo cáo nhận được
 
 | File | Nội dung |
 |---|---|
 | `project-profile.md` | Stack, snapshot source, bề mặt tấn công, giả định và phạm vi |
-| `audit-plan.md` | Quyết định dùng/bỏ qua đủ 11 repo, thứ tự và prerequisite |
+| `audit-plan.md` | Quyết định dùng/bỏ qua đủ 12 repo, thứ tự và prerequisite |
 | `coverage.json` | Phần đã kiểm tra, chưa kiểm tra, bị chặn và bằng chứng |
 | `findings.json` | Finding đã chuẩn hóa, trạng thái, nguồn, xác minh và bản vá |
 | `REPORT.md` | Kết quả tiếng Việt, lỗi ưu tiên, hạn chế và bước tiếp theo |
@@ -217,4 +225,4 @@ Trước khi cập nhật repo, kiểm tra `git status`; khi không có thay đ�
 
 Chạy `scripts/Test-Package.ps1` để kiểm tra cấu trúc, liên kết và danh mục. Xem [VALIDATION.md](VALIDATION.md) cho kết quả thực tế và [validation-scenarios.md](validation-scenarios.md) cho các ca nghiệm thu hành vi.
 
-Chưa kiểm thử end-to-end cả 11 upstream trên project thật. Danh mục là mô tả từ tài liệu, không phải chứng nhận chất lượng. Repo này không chứa source bên thứ ba và không có quan hệ đại diện chính thức với các tác giả upstream. Giấy phép của mỗi upstream áp dụng riêng. Repo hiện chưa chọn giấy phép phân phối cho phần nội dung riêng.
+Chưa kiểm thử end-to-end cả 12 upstream trên project thật. Danh mục là mô tả từ tài liệu, không phải chứng nhận chất lượng. Repo này không chứa source bên thứ ba và không có quan hệ đại diện chính thức với các tác giả upstream. Giấy phép của mỗi upstream áp dụng riêng. Repo hiện chưa chọn giấy phép phân phối cho phần nội dung riêng.
