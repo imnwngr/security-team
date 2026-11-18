@@ -65,5 +65,31 @@ foreach ($file in (Get-ChildItem -LiteralPath $PSScriptRoot -Filter '*.ps1')) {
 $metadata = Get-Content -LiteralPath (Join-Path $skillRoot 'agents/openai.yaml') -Raw
 if (-not $metadata.Contains('$security-team')) { throw 'Missing skill invocation metadata.' }
 
+# Exercise the downloader's manifest offline. An unexpected clone must fail locally.
+function Test-DownloaderCatalog {
+    function git { throw "Unexpected Git operation in the offline catalog check: $args" }
+    $tempRoot = (Get-Item -LiteralPath ([IO.Path]::GetTempPath())).FullName
+    $name = 'security-team-catalog-' + [guid]::NewGuid().ToString('N')
+    $fixture = New-Item -ItemType Directory -Path (Join-Path $tempRoot $name)
+    try {
+        foreach ($repo in $repos) {
+            New-Item -ItemType Directory -Path (Join-Path $fixture.FullName $repo.Replace('/', '__')) | Out-Null
+        }
+        & (Join-Path $PSScriptRoot 'Get-Toolkit.ps1') -Destination $fixture.FullName | Out-Null
+        $manifest = @(Get-ChildItem -LiteralPath $fixture.FullName -Filter 'toolkit-manifest-*.json' -File)
+        if ($manifest.Count -ne 1) { throw 'Expected one downloader manifest.' }
+        $entries = Get-Content -LiteralPath $manifest[0].FullName -Raw | ConvertFrom-Json
+        if ((($entries.repository | Sort-Object) -join ',') -cne ($repos -join ',') -or
+            @($entries | Where-Object status -ne 'existing_unverified').Count) {
+            throw 'Downloader manifest does not match the pre-existing catalog directories.'
+        }
+    } finally {
+        $resolved = (Resolve-Path -LiteralPath $fixture.FullName).Path
+        if ($resolved -ne (Join-Path $tempRoot $name)) { throw 'Unexpected fixture cleanup path.' }
+        Remove-Item -LiteralPath $resolved -Recurse -Force
+    }
+}
+Test-DownloaderCatalog
 Write-Output "PASS: frontmatter, $linkCount Markdown links, $htmlLinkCount HTML assets/links, $($images.Count) SVGs, $($repos.Count) catalog entries matched in both READMEs and prerequisites, PowerShell syntax and invocation metadata."
+Write-Output 'PASS: offline downloader manifest matches the catalog.'
 Write-Output 'This structural check is not a YAML schema validator or an end-to-end security audit.'
